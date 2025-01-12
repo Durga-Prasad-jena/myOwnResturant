@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { Resturant } from "../models/resturant.module";
+import { Cuisines } from "../models/cuisines.module";
 
 export const resturantApi = createApi({
   baseQuery: fetchBaseQuery({
@@ -47,6 +48,40 @@ export const resturantApi = createApi({
       }),
       invalidatesTags: ["Resturant"],
     }),
+    getCuisines: builder.query<Cuisines[], void>({
+      query: () => "/cuisines",
+      transformResponse: (response: Cuisines[], args: any) => {
+        if (args === 2) {
+          return response.slice(0, 4);
+        }
+        return response;
+      },
+     
+    }),
+    getCuisine: builder.query<Cuisines[], void>({
+      query: (id) =>`/cuisines/${id}`,
+    }),
+    addCuisines: builder.mutation<void, Cuisines>({
+      query: (cuisine) => ({
+        url: "/cuisines",
+        method: "POST",
+        body: cuisine,
+      }),
+      invalidatesTags: ["Resturant"],
+    }),
+    deleteCuisines: builder.mutation<void, string>({
+      query: (id) => ({
+        url: `/cuisines/${id}`,
+        method: "DELETE",
+      }),
+    }),
+    updateCuisines: builder.mutation<void, Cuisines>({
+      query: ({ id, ...rest }) => ({
+        url: `/cuisines/${id}`,
+        method: "PUT",
+        body: rest,
+      }),
+    }),
   }),
 });
 
@@ -56,4 +91,9 @@ export const {
   useAddResturantMutation,
   useDeleteResturantMutation,
   useUpdateResturantMutation,
+  useGetCuisinesQuery,
+  useDeleteCuisinesMutation,
+  useAddCuisinesMutation,
+  useGetCuisineQuery,
+  useUpdateCuisinesMutation
 } = resturantApi;

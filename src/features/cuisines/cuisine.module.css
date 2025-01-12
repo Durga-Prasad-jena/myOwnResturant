@@ -1,0 +1,34 @@
+.headerSearchRow {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+.headerLeftContent {
+    flex: 1;
+    h3 {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.2;
+        text-transform: uppercase;
+        color: var(--on-background);
+    }
+    p {
+        font-size: 12px;
+        line-height: 16px;
+        margin: 0;
+        color: var(--on-surface);
+    }
+}
+.headerSearchRight {
+    display: flex;
+    align-items: start;
+    flex: 0 auto;
+}
+.searchCol {
+    position: relative;
+}
+
+.tableRightBtnAction {
+    display: flex;    
+    align-items: center;
+}

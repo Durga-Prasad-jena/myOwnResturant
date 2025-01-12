@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store";
 import Header from "./componets/Header";
 import { Addresturant } from "./features/addresturant/Addresturant";
+import Cuisines from "./features/cuisines/Cuisines";
 export const router = createBrowserRouter([
   {
     path: "/",
@@ -22,6 +23,14 @@ export const router = createBrowserRouter([
       {
         path: "/addResturant/:id",
         element: <Addresturant />,
+      },
+      {
+        path: "cuisines",
+        element: <Cuisines />,
+      },
+      {
+        path: "/cuisines/:id",
+        element: <Cuisines />,
       },
      
     ],

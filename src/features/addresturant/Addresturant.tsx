@@ -69,12 +69,11 @@ const schema = yup.object().shape({
 });
 
 export const Addresturant = () => {
-  const [resturant, setResturant] = useState<Resturant>(Object);
   const [editMode, setEditMode] = useState<boolean>(false);
   const navigate = useNavigate();
   const { id } = useParams();
   const [updateResturant] = useUpdateResturantMutation();
-  const { data } = useGetResturantQuery(id);
+  const { data } = useGetResturantQuery(id!);
   const [addResturant] = useAddResturantMutation();
 
   console.log(data)
@@ -84,7 +83,6 @@ export const Addresturant = () => {
   useEffect(() => {
     if (id && data) {
       setEditMode(true);
-      setResturant({ ...data });
     } else {
       setEditMode(false);
     }

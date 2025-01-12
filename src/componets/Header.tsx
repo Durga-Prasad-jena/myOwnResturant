@@ -29,6 +29,14 @@ const Header = () => {
               Add a New Resturant
             </NavLink>
           </li>
+          <li className="nav-item mx-2">
+            <NavLink
+              to="/cuisines"
+              className={({ isActive }) => (isActive ? "activee" : "inactivee")}
+            >
+            Cuisines
+            </NavLink>
+          </li>
         </ul>
       </div>
     </nav>
