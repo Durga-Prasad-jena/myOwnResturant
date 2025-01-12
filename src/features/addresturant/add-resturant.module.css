@@ -1,0 +1,66 @@
+.headerWrapper {
+    background: var(--surface);
+    display: flex;
+    justify-content: space-between;
+    .headerBrand {
+        img {
+            margin-top: 8px;
+            max-width: 130px;
+        }
+    }
+    .headerMenu {
+        ul {
+            display: flex;
+        }
+        ul li {
+            margin: 0 2px;
+            a {
+                display: block;
+                font-size: 14px;
+                line-height: 20px;
+                color: var(--on-surface);
+                padding: 18px 15px;   
+                &:hover {
+                    background: var(--on-surface-3);
+                }
+            }
+        }
+    }
+}
+
+.restaurantHeader {
+    padding: 15px 0;
+    h3 {
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 1.2;
+        text-transform: uppercase;
+        color: var(--on-background);
+    }
+    p {
+        font-size: 12px;
+        line-height: 16px;
+        margin: 0;
+        color: var(--on-surface);
+    }
+}
+
+.restaurantInfoBox {
+    background: var(--surface);
+    border-radius: 5px;
+    padding: 30px;
+    h4 {
+        font-size: 15px;
+        line-height: 1.2;
+        font-weight: 500;
+        color: var(--on-background);
+        margin-bottom: 20px;
+    }
+}
+.restaurantInfoBox {
+    margin-bottom: 20px;
+}
+
+.checkboxList {
+    padding-top: 15px;
+}
