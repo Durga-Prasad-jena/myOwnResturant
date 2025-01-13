@@ -18,7 +18,7 @@ export interface CuisineData {
 
 const Cuisines = () => {
   const [open, setOpen] = useState<boolean>(false);
-  const { data, isLoading, isSuccess, isError } = useGetCuisinesQuery();
+  const { data, isLoading, isSuccess, isError,refetch } = useGetCuisinesQuery();
   const [deleteCuisines] = useDeleteCuisinesMutation();
   const [addCuisines] = useAddCuisinesMutation()
 
@@ -29,7 +29,9 @@ const Cuisines = () => {
 
 
     const onSubmit = (data:CuisineData) =>{
-      addCuisines(data)
+      addCuisines(data).then(()=>{
+        refetch()
+      })
       setOpen(false)
     }
 

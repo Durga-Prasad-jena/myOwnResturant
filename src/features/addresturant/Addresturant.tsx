@@ -74,9 +74,9 @@ export const Addresturant = () => {
   const { id } = useParams();
   const [updateResturant] = useUpdateResturantMutation();
   const { data } = useGetResturantQuery(id!);
-  const [addResturant] = useAddResturantMutation();
+  console.log("data=========>>>>>>",data)
+  const [addResturant,refetch] = useAddResturantMutation();
 
-  console.log(data)
 
  
 
@@ -111,7 +111,7 @@ export const Addresturant = () => {
     if (editMode) {
       await updateResturant(allData);
     } else {
-      await addResturant(allData);
+      await addResturant(allData).then(()=>{refetch()})
     }
     navigate("/");
     setEditMode(false);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   useDeleteResturantMutation,
   useGetResturantsQuery,
@@ -16,33 +16,53 @@ const Resturant = () => {
   } = useGetResturantsQuery();
   console.log("resturant lentgh", resturants?.length);
   const [deleteResturant] = useDeleteResturantMutation();
+  const [input, setInput] = useState<string>("");
+  const [resturantData, setResturantData] = useState([]);
 
-  // const [currentPage, setCurrentPage] = useState(1);
-  // const recordsPerPage = 5;
-  // const lastIndex = currentPage * recordsPerPage;
-  // const firstIndex = lastIndex - recordsPerPage;
-  // const records = resturants?.slice(firstIndex, lastIndex);
-  // const npage = Math.ceil(resturants?.length / recordsPerPage);
+  useEffect(() => {
+    setResturantData(resturants);
+  }, [resturants]);
+
+  console.log("resturantData", resturantData?.length);
+  const [currentPage, setCurrentPage] = useState(1);
+  const recordsPerPage = 10;
+  const lastIndex = currentPage * recordsPerPage;
+  const firstIndex = lastIndex - recordsPerPage;
+  console.log("lastIndex", lastIndex);
+  console.log("firstIndex", firstIndex);
+  const records = resturantData?.slice(firstIndex, lastIndex);
+  console.log("records", records);
+  const npage = Math.ceil(resturantData?.length / recordsPerPage);
+  console.log("npage", npage);
+
   // const numbers = [...Array(npage + 1).keys()].slice(1);
+
+  // console.log("numbers",numbers)
   // console.log(npage)
 
-  // const prevPage = () =>{
-  //   if(currentPage !== 1){
-  //     setCurrentPage(currentPage - 1)
-  //   }
-  // }
-  // const change = (id:number) =>{
-  // setCurrentPage(id)
-  // }
-  // const nextPage = () =>{
-  //   if(currentPage !== npage){
-  //     setCurrentPage(currentPage + 1)
-  //   }
-  // }
-  const handleDeleteResturant =(id:string) =>{
+  const prevPage = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+  const change = (id: number) => {
+    setCurrentPage(id);
+  };
+  const nextPage = () => {
+    if (currentPage !== npage) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+  const handleDeleteResturant = (id: string) => {
     alert("are you sure you want to delete");
-    deleteResturant(id)
-  }
+    deleteResturant(id);
+  };
+  const onHandleSearch = () => {
+    const newData = resturants?.filter((item) => {
+      return item.companyName.toLowerCase().includes(input.toLowerCase());
+    });
+    setResturantData(newData);
+  };
 
   return (
     <div>
@@ -56,9 +76,18 @@ const Resturant = () => {
         </div>
         <div className={styles.headerSearchRight}>
           <div className={styles.searchCol}>
-            <input type="text" placeholder="Search" className="form-control" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="form-control"
+              onChange={(e) => setInput(e.target.value)}
+            />
           </div>
-          <button type="button" className="btn btn-primary me-3">
+          <button
+            type="button"
+            className="btn btn-primary me-3"
+            onClick={onHandleSearch}
+          >
             Search
           </button>
           <button type="button" className="btn btn-primary me-3">
@@ -98,7 +127,7 @@ const Resturant = () => {
           )}
           {isError && <span>Something went wrong</span>}
           {isSuccess &&
-            resturants?.slice(0, 10).map((resturant) => (
+            records?.map((resturant) => (
               <tbody key={resturant.id}>
                 <tr>
                   <td>{resturant.companyName}</td>
@@ -115,7 +144,12 @@ const Resturant = () => {
                       </label>
 
                       <button type="button" className="btn btn-primary">
-                      <NavLink  to={`addResturant/${resturant?.id}`} style={{color:"white"}}>Edit</NavLink>
+                        <NavLink
+                          to={`addResturant/${resturant?.id}`}
+                          style={{ color: "white" }}
+                        >
+                          Edit
+                        </NavLink>
                       </button>
                       <button
                         type="button"
@@ -131,22 +165,23 @@ const Resturant = () => {
             ))}
         </table>
 
-        {/* <nav>
+        <nav style={{position:"absolute",justifyContent:"right"}}>
           <ul className="pagination">
             <li className="page-item">
               <a href="#" className="page-link" onClick={() => prevPage()}>
                 PrevP
               </a>
             </li>
-            {numbers.map((n, i) => (
-              <li
-                className={`page-item ${currentPage === n ? "active" : ""}`}
-                key={i}
+           
+
+            {Array.from({ length: npage }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => change(index + 1)}
+                disabled={currentPage === index + 1}
               >
-                <a href="#" className="page-link" onClick={() => change()}>
-                  {n}
-                </a>
-              </li>
+                {index + 1}
+              </button>
             ))}
             <li className="page-item">
               <a href="#" className="page-link" onClick={() => nextPage()}>
@@ -154,7 +189,7 @@ const Resturant = () => {
               </a>
             </li>
           </ul>
-        </nav> */}
+        </nav>
       </div>
     </div>
   );

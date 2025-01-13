@@ -39,6 +39,22 @@ export const resturantApi = createApi({
         method: "DELETE",
       }),
       invalidatesTags: ["Resturant"],
+      onQueryStarted: function (id ,{dispatch,queryFulfilled}){
+        console.log(1)
+     const action =   dispatch(
+          resturantApi.util.updateQueryData(
+            "getResturants",
+            undefined,
+            function(resturants){
+              const newResturant = resturants.filter((resturant)=>resturant.id != id);
+              return newResturant;
+            }
+          )
+        );
+        queryFulfilled.catch(()=>{
+          action.undo();
+        })
+      }
     }),
     updateResturant: builder.mutation<void, Resturant>({
       query: ({ id, ...rest }) => ({
@@ -74,6 +90,22 @@ export const resturantApi = createApi({
         url: `/cuisines/${id}`,
         method: "DELETE",
       }),
+      onQueryStarted: function (id ,{dispatch,queryFulfilled}){
+        console.log(1)
+     const action =   dispatch(
+          resturantApi.util.updateQueryData(
+            "getCuisines",
+            undefined,
+            function(cuisines){
+              const newCuisines = cuisines.filter((cuisine)=>cuisine.id != id);
+              return newCuisines;
+            }
+          )
+        );
+        queryFulfilled.catch(()=>{
+          action.undo();
+        })
+      }
     }),
     updateCuisines: builder.mutation<void, Cuisines>({
       query: ({ id, ...rest }) => ({
